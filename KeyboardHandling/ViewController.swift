@@ -16,18 +16,19 @@ class ViewController: UIViewController {
     @IBOutlet weak var pursuitLogoCenteryConstriant: NSLayoutConstraint!
 
     private var keyboardIsVisible = false
-    
+    private  var originalYConstraint: NSLayoutConstraint!
     //the constaint for the height
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
+        registerForKeyboardNotification()
+       // puslateLogo()
         userNameTextField.delegate = self
         passwordTextField.delegate = self
-        registerForKeyboardNotification()
+        
     }
+    //NotificationCenter is like a caller ... it will know when things happen and react.
     
     override func viewWillDisappear(_ animated: Bool) {
         unregisterForKeyobardNotification()
@@ -68,9 +69,14 @@ class ViewController: UIViewController {
     }
 
     private func moveKeyboardUp(_ height: CGFloat){
-
         if keyboardIsVisible {return} // prevents the constraints from running multiple times.
-           pursuitLogoCenteryConstriant.constant -= height
+        originalYConstraint = pursuitLogoCenteryConstriant // save the original value
+        
+        pursuitLogoCenteryConstriant.constant -= (height * 0.8)
+       // print("originalYCondtraint :\(originalYConstraint)")
+        UIView.animate(withDuration: 0.5){
+            self.view.layoutIfNeeded()
+        }
         
         keyboardIsVisible = true
     }
@@ -80,7 +86,16 @@ class ViewController: UIViewController {
         keyboardIsVisible = false
         // need a value to keep the original value of the constaint because we changed it
         // we can do the below because we KNOW the value of 0 before
-        pursuitLogoCenteryConstriant.constant = 0
+       // pursuitLogoCenteryConstriant.constant = 0
+        pursuitLogoCenteryConstriant.constant -= originalYConstraint.constant
+        
+        UIView.animate(withDuration: 1.0){
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    private func puslateLogo(){
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: [.repeat], animations: { self.pursuitLogo.transform = CGAffineTransform(scaleX: 1.2, y: 1.2) }, completion: nil)
     }
 }
 
@@ -88,7 +103,9 @@ extension ViewController: UITextFieldDelegate{
      
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        resetUI()
+     //   resetUI()
+        
+       // print("originalYCondtraint :\(originalYConstraint)")
         return true
     }
     
