@@ -15,7 +15,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var pursuitLogoCenteryConstriant: NSLayoutConstraint!
 
-    private var keyboardIsVidible = false
+    private var keyboardIsVisible = false
+    
+    //the constaint for the height
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,8 +61,7 @@ class ViewController: UIViewController {
     
     @objc
     private func keyboardWillHide(_ notification: NSNotification){
-        
-        
+        resetUI()
         print("keyboardWillhide")
        // print(notification.userInfo)
         // ToDo: Complete
@@ -67,19 +69,26 @@ class ViewController: UIViewController {
 
     private func moveKeyboardUp(_ height: CGFloat){
 
-        if keyboardIsVidible {return} // prevents the constraints from running multiple times.
+        if keyboardIsVisible {return} // prevents the constraints from running multiple times.
            pursuitLogoCenteryConstriant.constant -= height
         
-        keyboardIsVidible = true
-
+        keyboardIsVisible = true
     }
-
+    
+    // writing a method that will reset everything
+    private func resetUI(){
+        keyboardIsVisible = false
+        // need a value to keep the original value of the constaint because we changed it
+        // we can do the below because we KNOW the value of 0 before
+        pursuitLogoCenteryConstriant.constant = 0
+    }
 }
 
 extension ViewController: UITextFieldDelegate{
      
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        resetUI()
         return true
     }
     
