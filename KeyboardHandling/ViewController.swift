@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var pursuitLogo: UIImageView!
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var pursuitLogoCenterConstriant: NSLayoutConstraint!
+    @IBOutlet weak var pursuitLogoCenteryConstriant: NSLayoutConstraint!
 
     
     override func viewDidLoad() {
@@ -51,15 +51,22 @@ class ViewController: UIViewController {
             return
             // shouldn't do a fatalError.. because you dont wanna crash the app if you dont get the info you wanted
         }
-        print("keyboard frame is: \(keyboardFrame)")
+        
+        moveKeyboardUp(keyboardFrame.size.height)
     }
     
     @objc
     private func keyboardWillHide(_ notification: NSNotification){
+        
+        
         print("keyboardWillhide")
         print(notification.userInfo)
+        // ToDo: Complete
     }
 
+    private func moveKeyboardUp(_ height: CGFloat){
+           pursuitLogoCenteryConstriant.constant -= height
+    }
 
 }
 

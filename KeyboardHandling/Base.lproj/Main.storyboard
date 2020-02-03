@@ -54,7 +54,7 @@
                     <connections>
                         <outlet property="passwordTextField" destination="a5T-oI-jmd" id="MbS-Av-b5M"/>
                         <outlet property="pursuitLogo" destination="TFP-LO-Fjg" id="9Xp-0U-6Hv"/>
-                        <outlet property="pursuitLogoCenterConstriant" destination="TFP-LO-Fjg" id="qJu-3H-BCL"/>
+                        <outlet property="pursuitLogoCenteryConstriant" destination="4mF-wE-wkO" id="1ZI-WM-ePz"/>
                         <outlet property="userNameTextField" destination="GbW-AW-RI9" id="quX-Nx-dFh"/>
                     </connections>
                 </viewController>
