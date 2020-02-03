@@ -15,11 +15,14 @@ class ViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var pursuitLogoCenteryConstriant: NSLayoutConstraint!
 
+    private var keyboardIsVidible = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        userNameTextField.delegate = self
+        passwordTextField.delegate = self
         registerForKeyboardNotification()
     }
     
@@ -46,12 +49,10 @@ class ViewController: UIViewController {
         print("keyboardWillShow")
      //   print(notification.userInfo)
         //UIKeyboardFrameBeginUserInfoKey
-        
         guard let keyboardFrame = notification.userInfo?["UIKeyboardFrameBeginUserInfoKey"] as? CGRect else {
             return
             // shouldn't do a fatalError.. because you dont wanna crash the app if you dont get the info you wanted
         }
-        
         moveKeyboardUp(keyboardFrame.size.height)
     }
     
@@ -60,13 +61,28 @@ class ViewController: UIViewController {
         
         
         print("keyboardWillhide")
-        print(notification.userInfo)
+       // print(notification.userInfo)
         // ToDo: Complete
     }
 
     private func moveKeyboardUp(_ height: CGFloat){
+
+        if keyboardIsVidible {return} // prevents the constraints from running multiple times.
            pursuitLogoCenteryConstriant.constant -= height
+        
+        keyboardIsVidible = true
+
     }
 
+}
+
+extension ViewController: UITextFieldDelegate{
+     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    
 }
 
